@@ -129,41 +129,22 @@ canvas.addEventListener("click", (event) => {
   
   
     function playAITurn() {
-      const captureMoves = game.generateMoves("B").filter(([from, to]) =>
-          Math.abs(from[0] - to[0]) === 2
-      ); 
-      const moves = captureMoves.length > 0 ? captureMoves : game.generateMoves("B");
-  
-      if (moves.length === 0) {
-          document.getElementById("message").textContent = "Vitória das peças brancas!";
-          return;
-      }
-  
-      let bestMove = null;
-      let bestValue = -Infinity;
-  
-      for (const [from, to] of moves) {
-          const backup = JSON.parse(JSON.stringify(game.board));
-          game.movePiece(from, to);
-          const evaluation = Minimax.minimax(game, 5, false, -Infinity, Infinity);
-          game.board = backup;
-  
-          console.log(`Movimento: de ${from} para ${to} - Avaliação: ${evaluation}`);
-  
-          if (evaluation > bestValue) {
-              bestValue = evaluation;
-              bestMove = [from, to];
-          }
-      }
-  
-      if (bestMove) {
-        console.log("IA jogando:", bestMove);
-        game.movePiece(bestMove[0], bestMove[1]);
+        const captureMoves = game.generateMoves("B").filter(([from, to]) =>
+            Math.abs(from[0] - to[0]) === 2
+        );
+    
+        const moves = captureMoves.length > 0 ? captureMoves : game.generateMoves("B");
+    
+        if (moves.length === 0) {
+            document.getElementById("message").textContent = "Vitória das peças brancas!";
+            return;
+        }
+    
+        const [from, to] = moves[Math.floor(Math.random() * moves.length)];
+        game.movePiece(from, to);
+    
         drawBoard();
-        game.switchTurn(); // Alterna para o turno do jogador
-    } else {
-        console.error("Erro: A IA não conseguiu fazer um movimento válido.");
+        game.switchTurn();
     }
-}
-  
+    
       
