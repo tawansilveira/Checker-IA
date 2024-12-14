@@ -8,7 +8,7 @@ const COLORS = {
   dark: "#b58863",
   pieceW: "#ffffff",
   pieceB: "#000000",
-  pieceQueen: "#ffd700", // Dourado para DAMA
+  pieceQueen: "#ffd700", 
   highlight: "rgba(0, 255, 0, 0.5)",
 };
 
@@ -45,11 +45,11 @@ function drawBoard() {
 function highlightMoves(moves) {
     moves.forEach(([_, to]) => {
         const [row, col] = to;
-        ctx.fillStyle = COLORS.highlight; // Preencher com a cor de destaque
-        ctx.fillRect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE); // Preencher com a cor de destaque
+        ctx.fillStyle = COLORS.highlight; 
+        ctx.fillRect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE); 
         ctx.strokeStyle = "green";
         ctx.lineWidth = 3;
-        ctx.strokeRect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE); // Contorno da área
+        ctx.strokeRect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE); 
     });
 
 }
@@ -97,9 +97,8 @@ canvas.addEventListener("click", (event) => {
             drawBoard();
 
             selectedPiece = null;
-            game.switchTurn(); // Alternar turno
-
-            // Turno da IA
+            game.switchTurn(); 
+            
             if (game.currentPlayer === "B") {
                 setTimeout(playAITurn, 500);
             }
@@ -124,22 +123,15 @@ canvas.addEventListener("click", (event) => {
     }
 });
 
-
-  
-  
-  
-  
-  
-    // Chamar o turno da IA automaticamente
     if (game.currentPlayer === "B") {
-      setTimeout(playAITurn, 500); // Pequeno delay para simular "pensamento" da IA
+      setTimeout(playAITurn, 500); 
     }
   
   
     function playAITurn() {
       const captureMoves = game.generateMoves("B").filter(([from, to]) =>
           Math.abs(from[0] - to[0]) === 2
-      ); // Apenas movimentos de captura
+      ); 
       const moves = captureMoves.length > 0 ? captureMoves : game.generateMoves("B");
   
       if (moves.length === 0) {

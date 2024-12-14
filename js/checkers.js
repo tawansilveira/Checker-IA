@@ -1,10 +1,10 @@
 class Checkers {
     constructor() {
         this.board = this.initBoard();
-        this.currentPlayer = "W"; // "W" para branco, "B" para preto
-        this.moveHistory = []; // Histórico de jogadas
-        this.whiteCount = 12; // Inicialmente 12 peças brancas
-        this.blackCount = 12; // Inicialmente 12 peças pretas
+        this.currentPlayer = "W"; 
+        this.moveHistory = []; 
+        this.whiteCount = 12; 
+        this.blackCount = 12; 
         this.updatePieceCounts();
     }
 
@@ -14,12 +14,12 @@ class Checkers {
             .map(() => Array(8).fill(null));
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
-                if ((i + j) % 2 === 1) board[i][j] = "B"; // Peças pretas
+                if ((i + j) % 2 === 1) board[i][j] = "B"; 
             }
         }
         for (let i = 5; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
-                if ((i + j) % 2 === 1) board[i][j] = "W"; // Peças brancas
+                if ((i + j) % 2 === 1) board[i][j] = "W"; 
             }
         }
         return board;
@@ -94,7 +94,7 @@ class Checkers {
     }
     getValidMovesForQueen([x, y]) {
         const piece = this.board[x][y];
-        const directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]]; // Direções diagonais
+        const directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
         const moves = [];
     
         directions.forEach(([dx, dy]) => {
@@ -103,31 +103,27 @@ class Checkers {
             let captured = false;
             let capturedPosition = null;
     
-            // Verificar movimentos da dama enquanto há casas livres ou peças adversárias
             while (this.isInBounds(nx, ny)) {
                 if (!this.board[nx][ny]) {
-                    // Se encontrar uma casa livre, adicionar movimento
                     if (captured) {
-                        moves.push([[x, y], [nx, ny], capturedPosition]); // Movimento com captura
+                        moves.push([[x, y], [nx, ny], capturedPosition]); 
                     } else {
-                        moves.push([[x, y], [nx, ny]]); // Movimento sem captura
+                        moves.push([[x, y], [nx, ny]]); 
                     }
                 } else if (!captured && this.board[nx][ny][0] !== piece[0]) {
-                    // Detectar uma peça adversária para captura
                     captured = true;
-                    capturedPosition = [nx, ny]; // Registra a posição da peça adversária
+                    capturedPosition = [nx, ny]; 
                 } else {
-                    break; // Se encontrar uma peça da mesma cor ou não for possível capturar, interrompe a busca
+                    break; 
                 }
     
-                // Continuar verificando a próxima casa na direção
                 nx += dx;
                 ny += dy;
             }
         });
     
-        console.log("Valid queen moves:", moves); // Debug
-        return moves;
+        console.log("Valid queen moves:", moves); 
+        return moves
     }
     
     movePiece(from, to, captured = null) {
@@ -135,32 +131,25 @@ class Checkers {
         const [toRow, toCol] = to;
     
         const piece = this.board[fromRow][fromCol];
-        this.board[fromRow][fromCol] = null; // Remove a peça da posição antiga
-        this.board[toRow][toCol] = piece; // Move a peça para a nova posição
-    
-        // Se a peça for uma dama, verificar captura (em qualquer direção)
+        this.board[fromRow][fromCol] = null; 
+        this.board[toRow][toCol] = piece; 
+
         if (piece === "WK" || piece === "BK") {
-            // Se houve captura, remover a peça capturada
             if (captured) {
                 const [capturedRow, capturedCol] = captured;
-                this.board[capturedRow][capturedCol] = null; // Remove a peça capturada
-                // Atualizar contagem de peças
+                this.board[capturedRow][capturedCol] = null; 
                 this.updatePieceCounts();
             }
         } else if (Math.abs(fromRow - toRow) === 2) {
-            // Para peças normais (não dama), a captura é feita a 2 casas de distância
             const capturedRow = (fromRow + toRow) / 2;
             const capturedCol = (fromCol + toCol) / 2;
-            this.board[capturedRow][capturedCol] = null; // Remove a peça capturada
-            // Atualizar contagem de peças
+            this.board[capturedRow][capturedCol] = null; 
             this.updatePieceCounts();
         }
     
-        // Verificar promoção para dama
         if (piece === "W" && toRow === 0) this.board[toRow][toCol] = "WK";
         if (piece === "B" && toRow === 7) this.board[toRow][toCol] = "BK";
     
-        // Salvar movimento no histórico
         this.moveHistory.push({ from, to, captured, piece });
     }
     
@@ -176,7 +165,7 @@ class Checkers {
     
 
     generateMoves(player) {
-        const moves = new Set(); // Use um Set para garantir que não existam duplicatas
+        const moves = new Set(); 
         this.board.forEach((row, x) => {
             row.forEach((cell, y) => {
                 if (cell?.[0] === player) {
@@ -185,7 +174,7 @@ class Checkers {
                 }
             });
         });
-        return [...moves].map(move => JSON.parse(move)); // Converta de volta para array de movimentos
+        return [...moves].map(move => JSON.parse(move)); 
     }
     switchTurn() {
         this.currentPlayer = this.currentPlayer === "W" ? "B" : "W";

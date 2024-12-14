@@ -2,17 +2,17 @@ class Minimax {
   static evaluateBoard(board) {
       let score = 0;
       board.flat().forEach(cell => {
-          if (cell === "W") score += 10; // Peças brancas normais
-          if (cell === "WK") score += 30; // DAMA branca
-          if (cell === "B") score -= 10; // Peças pretas normais
-          if (cell === "BK") score -= 30; // DAMA preta
+          if (cell === "W") score -= 10; 
+          if (cell === "WK") score -= 30; 
+          if (cell === "B") score += 10; 
+          if (cell === "BK") score += 30; 
       });
       return score;
   }
 
   static minimax(game, depth, isMaximizing, alpha, beta) {
       const moves = game.generateMoves(isMaximizing ? "W" : "B");
-      if (depth === 0 || moves.length === 0) {
+      if (depth === 1000 || moves.length === 0) {
           return Minimax.evaluateBoard(game.board);
       }
 
@@ -29,7 +29,7 @@ class Minimax {
 
               maxEval = Math.max(maxEval, evaluation);
               alpha = Math.max(alpha, evaluation);
-              if (beta <= alpha) break; // Poda alfa-beta
+              if (beta <= alpha) break; 
           }
           return maxEval;
       } else {
@@ -42,15 +42,14 @@ class Minimax {
 
               minEval = Math.min(minEval, evaluation);
               beta = Math.min(beta, evaluation);
-              if (beta <= alpha) break; // Poda alfa-beta
+              if (beta <= alpha) break;
           }
           return minEval;
       }
   }
 
   evaluateBoard(game) {
-    // Avaliar o estado do tabuleiro
-    return game.whiteCount - game.blackCount; // Simples avaliação de material
+    return game.whiteCount - game.blackCount; 
 }
 };
 
